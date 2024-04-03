@@ -3,6 +3,7 @@
 
 // When the page is loaded the select list and all purchases are written
 $(function() {
+    getMovies();
     writePurchases();
 });
 
@@ -138,7 +139,7 @@ function saveInfo(ticketInput, firstNameInput, lastNameInput, phoneNumberInput, 
 // writes all saved registered purchases
 function writePurchases() {
 
-    // retrieves a list of all registered purchases
+    // retrieves a list of all registered purchases and writes them
     $.get("/getPurchases", function(registeredPurchases) {
 
         let purchaseTable = "";
@@ -170,6 +171,27 @@ function removePurchases() {
     // deletes all purchases and then runs writePurchases() so the table is emptied
     $.post("/deletePurchases", function() {
         writePurchases();
+    });
+
+}
+
+
+// Function that initializes the select element for movies
+function getMovies() {
+
+    // retrieves a list of all movies and writes them
+    $.get("/getMovies", function(movieList) {
+
+        let movieSelect = "";
+
+        for (const movie of movieList) {
+
+            movieSelect += "<option>" + movie + "</option>";
+
+        }
+
+        $("#movie").html(movieSelect);
+
     });
 
 }
