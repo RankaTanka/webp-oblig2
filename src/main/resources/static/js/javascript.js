@@ -1,7 +1,15 @@
 // JS for all functions used in index.html
 
 // Function that retrieves information, then writes it into the Registered purchases table
-function registerPurchase() {
+function inputValidation() {
+
+    // JQuery document objects
+    const ticketInput = $("#tickets");
+    const firstNameInput = $("#first-name");
+    const lastNameInput = $("#last-name");
+    const phoneNumberInput = $("#phone-number");
+    const mailInput = $("#mail");
+
     // A bunch of boolean validation checks, if one is true it is invalid and if one is false it is valid
     let ticketValidation = document.getElementById("tickets").validity.rangeUnderflow;
     let firstNameValidation = document.getElementById("first-name").validity.patternMismatch;
@@ -13,80 +21,80 @@ function registerPurchase() {
 
     // Checking if the Tickets input value is valid,
     // if not ticketValidation is set to true and a message is shown
-    if (document.getElementById("tickets").value === "" ||
-        Math.round(Number(document.getElementById("tickets").value)) !==
-        Number(document.getElementById("tickets").value) ||
+    if (ticketInput.val() === "" || Math.round(Number(ticketInput.val())) !== Number(ticketInput.val()) ||
         ticketValidation === true) {
 
         ticketValidation = true;
 
-        document.getElementById("tickets").value = "1";
-        document.getElementById("invalid-ticket").innerHTML = "Please enter a valid number";
+        ticketInput.val(1);
+        $("#invalid-ticket").show();
     }
     // Every time the input is valid the message gets removed
     else {
-        document.getElementById("invalid-ticket").innerHTML = "";
+        $("#invalid-ticket").hide();
     }
 
     // Checking if the First name input value is valid,
     // if not firstNameValidation is forcefully set to true and a message is shown
-    if (document.getElementById("first-name").value === "" ||
-        firstNameValidation === true) {
+    if (firstNameInput.val() === "" || firstNameValidation === true) {
 
         firstNameValidation = true;
 
-        document.getElementById("first-name").value = "";
-        document.getElementById("invalid-first-name").innerHTML = "Please enter a valid first name";
+        firstNameInput.val(null);
+        $("#invalid-first-name").show();
+
     }
     else {
-        document.getElementById("invalid-first-name").innerHTML = "";
+        $("#invalid-first-name").hide();
     }
 
     // Checking if the Last name input value is valid,
     // if not lastNameValidation is forcefully set to true and a message is shown
-    if (document.getElementById("last-name").value === "" ||
-        lastNameValidation === true) {
+    if (lastNameInput.val() === "" || lastNameValidation === true) {
 
         lastNameValidation = true;
 
-        document.getElementById("last-name").value = "";
-        document.getElementById("invalid-last-name").innerHTML = "Please enter a valid last name";
+        lastNameInput.val(null);
+        $("#invalid-last-name").show();
+
     }
     else {
-        document.getElementById("invalid-last-name").innerHTML = "";
+        $("#invalid-last-name").hide();
     }
 
     // Checking if the Phone number input value is valid,
     // if not phoneNumberValidation is forcefully set to true and a message is shown
-    if (document.getElementById("phone-number").value === "" ||
-        phoneNumberValidation === true) {
+    if (phoneNumberInput.val() === "" || phoneNumberValidation === true) {
 
         phoneNumberValidation = true;
 
-        document.getElementById("phone-number").value = "";
-        document.getElementById("invalid-phone-number").innerHTML = "Please enter a valid phone number";
+        phoneNumberInput.val(null);
+        $("#invalid-phone-number").show();
+
     }
     else {
-        document.getElementById("invalid-phone-number").innerHTML = "";
+        $("#invalid-phone-number").hide();
     }
 
     // Checking if the Mail input value is valid,
     // if not mailValidation is forcefully set to true and a message is shown
-    if (document.getElementById("mail").value === "" ||
-        mailValidation === true) {
+    if (mailInput.val() === "" || mailValidation === true) {
 
         mailValidation = true;
 
-        document.getElementById("mail").value = "";
-        document.getElementById("invalid-mail").innerHTML = "Please enter a valid email";
+        mailInput.val(null);
+        $("#invalid-mail").show();
     }
     else {
-        document.getElementById("invalid-mail").innerHTML = "";
+        $("#invalid-mail").hide();
     }
 
 
-    // if all the validations are false the Purchase registration goes through
+    // if all the validations are false the saveInfo-function is activated
     if (!ticketValidation && !firstNameValidation && !lastNameValidation && !phoneNumberValidation && !mailValidation) {
+
+        saveInfo(ticketInput, firstNameInput, lastNameInput, phoneNumberInput, mailInput);
+
         // This is an array containing all the selector and input elements, the elements in the array index.html is
         // set up in a way so that they are put in the same order the table headers are (Movie, Tickets, etc.)
         const purchaseInformation = document.getElementsByName("input");
@@ -102,6 +110,30 @@ function registerPurchase() {
         // Adds purchaseRow to the Registered purchases inner HTML
         document.getElementById("registered-purchases").innerHTML += purchaseRow;
     }
+}
+
+
+// A function that saves purchase info on the client
+function saveInfo(ticketInput, firstNameInput, lastNameInput, phoneNumberInput, mailInput) {
+
+    const purchase = {
+        ticketAmount : ticketInput.val(),
+        firstName : firstNameInput.val(),
+        lastName : lastNameInput.val(),
+        phoneNumber : phoneNumberInput.val(),
+        mail : mailInput.val()
+    };
+
+
+
+
+
+    ticketInput.val(1);
+    firstNameInput.val(null);
+    lastNameInput.val(null);
+    phoneNumberInput.val(null);
+    mailInput.val(null);
+
 }
 
 

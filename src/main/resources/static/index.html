@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple window where you can register movie tickets">
     <title>ShrekCinema</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/javascript.js" defer></script>
 
     <!-- Some styling for the document -->
@@ -88,6 +90,27 @@
             padding-bottom: 0;
             color: red;
         }
+
+        #invalid-ticket {
+            display: none;
+        }
+
+        #invalid-first-name {
+            display: none;
+        }
+
+        #invalid-last-name {
+            display: none;
+        }
+
+        #invalid-phone-number {
+            display: none;
+        }
+
+        #invalid-mail {
+            display: none;
+        }
+
     </style>
 
 </head>
@@ -110,7 +133,7 @@
     <!-- this is the Tickets input element, it only accepts integers that are 1 or higher -->
     <input type="number" id="tickets" name="input" value="1"
            title="Write amount of tickets you want to buy here" min="1">
-    <span id="invalid-ticket"></span>
+    <span id="invalid-ticket">Please enter a valid number</span>
 </section>
 
 <!-- Section containing inputs for personal information -->
@@ -122,14 +145,14 @@
             <input type="text" id="first-name" name="input" placeholder="Name" title="Write your first name here"
                    pattern="[a-zæøåA-ZÆØÅ]{2,}">
         </li>
-        <li class="invalid" id="invalid-first-name"></li>
+        <li class="invalid" id="invalid-first-name">Please enter a valid first name</li>
 
         <!-- this is the Last name input element, it only accepts values that consists of 2 or more letters -->
         <li><label for="last-name">Last name:</label>
             <input type="text" id="last-name" name="input" placeholder="Namington" title="Write your last name here"
                    pattern="[a-zæøåA-ÅÆØÅ]{2,}">
         </li>
-        <li class="invalid" id="invalid-last-name"></li>
+        <li class="invalid" id="invalid-last-name">Please enter a valid last name</li>
 
         <!-- this is the Phone number input element -->
         <!-- it only accepts values that consists of 8 digits where the first digit is not 0 -->
@@ -137,18 +160,18 @@
             <input type="tel" id="phone-number" name="input" placeholder="12345678" title="Write your phone number here"
                    pattern="[1-9]{1}[\d]{7}">
         </li>
-        <li class="invalid" id="invalid-phone-number"></li>
+        <li class="invalid" id="invalid-phone-number">Please enter a valid phone number</li>
 
         <!-- this is the Mail input element, it only accepts emails -->
         <li><label for="mail">Email:</label>
             <input type="email" id="mail" name="input" placeholder="nnn@nnn.nnn" title="Write your email here"
                    pattern="[a-z0-9.]+@[a-z0-9.]+\.[a-z]{2,3}">
         </li>
-        <li class="invalid" id="invalid-mail"></li>
+        <li class="invalid" id="invalid-mail">Please enter a valid email</li>
 
     </ul>
 
-    <button onclick="registerPurchase()">Register purchases</button>
+    <button onclick="inputValidation()">Register purchase</button>
 
     <button onclick="removePurchases()">Remove all purchases</button>
 </section>
