@@ -1,5 +1,12 @@
 // JS for all functions used in index.html
 
+
+// When the page is loaded the select list and all purchases are written
+$(function() {
+    writePurchases();
+});
+
+
 // Function that retrieves information, then writes it into the Registered purchases table
 function inputValidation() {
 
@@ -95,28 +102,16 @@ function inputValidation() {
 
         saveInfo(ticketInput, firstNameInput, lastNameInput, phoneNumberInput, mailInput);
 
-        // This is an array containing all the selector and input elements, the elements in the array index.html is
-        // set up in a way so that they are put in the same order the table headers are (Movie, Tickets, etc.)
-        const purchaseInformation = document.getElementsByName("input");
-
-        // Code generating the next row in the Registered purchases table
-        // All values from the array are added to purchaseRow
-        let purchaseRow = "<tr>";
-        for (let input of purchaseInformation) {
-            purchaseRow += "<td>" + input.value + "</td>";
-        }
-        purchaseRow += "</tr>";
-
-        // Adds purchaseRow to the Registered purchases inner HTML
-        document.getElementById("registered-purchases").innerHTML += purchaseRow;
     }
 }
 
 
-// A function that saves purchase info on the client
+// A function that saves a purchase on the server
 function saveInfo(ticketInput, firstNameInput, lastNameInput, phoneNumberInput, mailInput) {
 
+    // a javascript object matching the custom java object of Purchase
     const purchase = {
+        movie : $("#movie").val(),
         ticketAmount : ticketInput.val(),
         firstName : firstNameInput.val(),
         lastName : lastNameInput.val(),
@@ -124,10 +119,13 @@ function saveInfo(ticketInput, firstNameInput, lastNameInput, phoneNumberInput, 
         mail : mailInput.val()
     };
 
+    // posts purchase so that it gets converted to a Purchase object and saved
+    $.post("/savePurchase", purchase, function() {
+        writePurchases();
+    });
 
 
-
-
+    // resets all input elements
     ticketInput.val(1);
     firstNameInput.val(null);
     lastNameInput.val(null);
@@ -137,7 +135,41 @@ function saveInfo(ticketInput, firstNameInput, lastNameInput, phoneNumberInput, 
 }
 
 
+// writes all saved registered purchases
+function writePurchases() {
+
+    // retrieves a list of all registered purchases
+    $.get("/getPurchases", function(registeredPurchases) {
+
+        let purchaseTable = "";
+
+        // formats each registered purchase into a table row
+        for (const purchase of registeredPurchases) {
+
+            purchaseTable += "<tr>" +
+                "<td>" + purchase.movie + "</td>" +
+                "<td>" + purchase.ticketAmount + "</td>" +
+                "<td>" + purchase.firstName + "</td>" +
+                "<td>" + purchase.lastName + "</td>" +
+                "<td>" + purchase.phoneNumber + "</td>" +
+                "<td>" + purchase.mail + "</td>" +
+                "</tr>";
+
+        }
+
+        // writes all the rows into the registered purchases table
+        $("#registered-purchases").html(purchaseTable);
+
+    });
+}
+
+
 // Function that restarts the Registered purchases table
 function removePurchases() {
-    document.getElementById("registered-purchases").innerHTML = "";
+
+    // deletes all purchases and then runs writePurchases() so the table is emptied
+    $.post("/deletePurchases", function() {
+        writePurchases();
+    });
+
 }
