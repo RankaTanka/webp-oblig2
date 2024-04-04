@@ -3,192 +3,114 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple window where you can register movie tickets">
     <title>ShrekCinema</title>
 
+
+    <!-- Stylesheets, one links to bootstrap 4.3.1, the other a local css stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Scripts, one links to JQuery the other a local script -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/javascript.js" defer></script>
 
-    <!-- Some styling for the document -->
-    <!-- Would have made a css file, but the assignment specified one html and one javascript document -->
-    <style>
-        body {
-            margin-left: 30px;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            background-color: ghostwhite;
-        }
-
-        span {
-            color: red;
-        }
-
-        li {
-            white-space: pre-line;
-            padding-bottom: 5px;
-        }
-
-        /* Some styling of all interactable elements */
-        label {
-            font-weight: bold;
-        }
-
-        input[type=number] {
-            height: 15px;
-            width: 23px;
-            vertical-align: bottom;
-            /* Something to remove the arrows show up when setting the Tickets input type to number in Firefox */
-            -moz-appearance: textfield;
-        }
-
-        /* Something to remove the same arrows in Chrome, Safari, Edge and Opera */
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-        }
-
-        select {
-            height: 21px;
-            vertical-align: bottom;
-        }
-
-        select:hover {
-            cursor: pointer;
-        }
-
-        button {
-            background-color: white;
-            border-width: 1px;
-            border-radius: 2px;
-            border-color: grey;
-            width: 150px;
-        }
-
-        button:hover {
-            cursor: pointer;
-            background-color: gainsboro;
-            border-color: black;
-        }
-
-        /* Some styling for the Registered purchases table */
-        table {
-            text-align: left;
-            min-width: 600px;
-            max-width: 100%;
-            background-color: white;
-            border: 1px solid;
-            border-radius: 5px;
-        }
-
-        th, td {
-            width: auto;
-        }
-
-        /* Class only used for the list elements where the invalid messages get shown */
-        .invalid {
-            white-space: normal;
-            padding-bottom: 0;
-            color: red;
-        }
-
-        #invalid-ticket {
-            display: none;
-        }
-
-        #invalid-first-name {
-            display: none;
-        }
-
-        #invalid-last-name {
-            display: none;
-        }
-
-        #invalid-phone-number {
-            display: none;
-        }
-
-        #invalid-mail {
-            display: none;
-        }
-
-    </style>
-
 </head>
 
-<body>
+<body class="bg-light container">
 
-<h1>Ordering of Cinema tickets</h1>
+    <h1>Shrek Cinema</h1>
 
-<!-- All elements values are retrieved from have the same name of "input" -->
+    <!-- Section containing inputs and a select for purchase information -->
+    <section>
 
-<!-- Section containing a movie selector and an input for number of tickets -->
-<section>
-    <label for="movie">Movie and number of tickets:</label>
-    <select id="movie" name="input" title="Choose the movie you want to watch"></select>
-    <!-- this is the Tickets input element, it only accepts integers that are 1 or higher -->
-    <input type="number" id="tickets" name="input" value="1"
-           title="Write amount of tickets you want to buy here" min="1">
-    <span id="invalid-ticket">Please enter a valid number</span>
-</section>
+        <div class="form-group">
+            <label for="movie">Movie and number of tickets:</label>
 
-<!-- Section containing inputs for personal information -->
-<section>
-    <ul style="list-style: none; padding-left: 0;">
+            <div class="input-group">
+                <!-- this is the movie select element, it lets you choose between four movies -->
+                <select class="form-control" id="movie" title="Choose the movie you want to watch"></select>
+
+                <!-- this is the Tickets input element, it only accepts integers that are 1 or higher -->
+                <input type="number" class="form-control rounded-right" id="tickets" value="1"
+                       title="Write amount of tickets you want to buy here" min="1">
+            </div>
+
+            <small class="form-text text-danger" id="invalid-ticket">Please enter a valid number</small>
+        </div>
+
 
         <!-- this is the First name input element, it only accepts values that consists of 2 or more letters -->
-        <li><label for="first-name">First name:</label>
-            <input type="text" id="first-name" name="input" placeholder="Name" title="Write your first name here"
+        <div class="form-group">
+            <label for="first-name">First name:</label>
+            <input type="text" class="form-control" id="first-name" placeholder="Name" title="Write your first name here"
                    pattern="[a-zæøåA-ZÆØÅ]{2,}">
-        </li>
-        <li class="invalid" id="invalid-first-name">Please enter a valid first name</li>
+
+            <small class="form-text text-danger" id="invalid-first-name">Please enter a valid first name</small>
+        </div>
+
 
         <!-- this is the Last name input element, it only accepts values that consists of 2 or more letters -->
-        <li><label for="last-name">Last name:</label>
-            <input type="text" id="last-name" name="input" placeholder="Namington" title="Write your last name here"
+        <div class="form-group">
+            <label for="last-name">Last name:</label>
+            <input type="text" class="form-control" id="last-name" placeholder="Namington" title="Write your last name here"
                    pattern="[a-zæøåA-ÅÆØÅ]{2,}">
-        </li>
-        <li class="invalid" id="invalid-last-name">Please enter a valid last name</li>
+
+            <small class="form-text text-danger" id="invalid-last-name">Please enter a valid last name</small>
+        </div>
+
 
         <!-- this is the Phone number input element -->
         <!-- it only accepts values that consists of 8 digits where the first digit is not 0 -->
-        <li><label for="phone-number">Phone number:</label>
-            <input type="tel" id="phone-number" name="input" placeholder="12345678" title="Write your phone number here"
-                   pattern="[1-9]{1}[\d]{7}">
-        </li>
-        <li class="invalid" id="invalid-phone-number">Please enter a valid phone number</li>
+        <div class="form-group">
+            <label for="phone-number">Phone number:</label>
+            <input type="tel" class="form-control" id="phone-number" placeholder="12345678" title="Write your phone number here"
+                       pattern="[1-9]{1}[\d]{7}">
+
+            <small class="form-text text-danger" id="invalid-phone-number">Please enter a valid phone number</small>
+        </div>
+
 
         <!-- this is the Mail input element, it only accepts emails -->
-        <li><label for="mail">Email:</label>
-            <input type="email" id="mail" name="input" placeholder="nnn@nnn.nnn" title="Write your email here"
+        <div class="form-group">
+            <label for="mail">Email:</label>
+            <input type="email" class="form-control" id="mail" placeholder="name@example.com" title="Write your email here"
                    pattern="[a-z0-9.]+@[a-z0-9.]+\.[a-z]{2,3}">
-        </li>
-        <li class="invalid" id="invalid-mail">Please enter a valid email</li>
 
-    </ul>
+            <small class="form-text text-danger" id="invalid-mail">Please enter a valid email</small>
+        </div>
 
-    <button onclick="inputValidation()">Register purchase</button>
 
-    <button onclick="removePurchases()">Remove all purchases</button>
-</section>
+        <button class="btn btn-primary" onclick="inputValidation()">Register purchase</button>
 
-<h2>All registered purchases:</h2>
+        <button class="btn btn-danger" onclick="removePurchases()">Remove purchases</button>
 
-<section>
-    <!-- Table for registered purchases (the Registered purchases table) -->
-    <table>
-        <thead>
-        <tr>
-            <th>Movie:</th>
-            <th>Tickets:</th>
-            <th>Name:</th>
-            <th>Last name:</th>
-            <th>Phone number:</th>
-            <th>Email:</th>
-        </tr>
-        </thead>
-        <tbody id="registered-purchases"></tbody>
-    </table>
-</section>
+    </section>
+
+
+    <section class="pt-4">
+
+        <h2>All registered purchases:</h2>
+
+        <!-- Table for registered purchases (the Registered purchases table) -->
+        <table class="table table-active table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Movie:</th>
+                    <th>Tickets:</th>
+                    <th>Name:</th>
+                    <th>Last name:</th>
+                    <th>Phone number:</th>
+                    <th>Email:</th>
+                </tr>
+            </thead>
+            <tbody id="registered-purchases"></tbody>
+        </table>
+
+    </section>
 
 </body>
 
