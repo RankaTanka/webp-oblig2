@@ -2,6 +2,8 @@
 
 
 // When the page is loaded the select list and all purchases are written
+
+// Look below at the getMovies() and writePurchases() functions for more details
 $(function() {
     getMovies();
     writePurchases();
